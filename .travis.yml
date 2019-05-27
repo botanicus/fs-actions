@@ -1,0 +1,12 @@
+language: node_js
+
+node_js:
+  - "11"
+
+notifications:
+  email: false
+
+cache: yarn
+
+# script:
+#   - rake travis:build
