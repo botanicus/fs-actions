@@ -34,6 +34,8 @@ Additionally this library does some basic validations, so it won't happen that y
 
 ## FileSystemActions
 
+An array-like structure meant to avoid iterating over the actions manually.
+
 ```js
 /*
   The constructor takes a splat of actions.
@@ -53,7 +55,7 @@ try {
   actions.validate()
 } catch(error) {
   // TODO: handle validation errors.
-  // As of now, there's no custom ValidationError class, see fs-actions#1
+  // As of now, there's no custom ValidationError class, see https://github.com/botanicus/fs-actions/issues/1
 }
 
 /*
@@ -72,12 +74,69 @@ actions.commit((message) => logger.info(message))
 
 ## FileSystemAction
 
+Superclass meant for creating new action classes. Useless on its own.
+
+Currently only defines `.validate`, `.message` and `.commit` methods that throws an error guiding the developer to define these in his action class.
+
 ## MoveFileAction
+
+Alternative of the `mv` utility. Works only on moving a file into an existing directory.
+
+```js
+const action = new MoveFileAction('/etc/profile', '/home/botanicus/backup')
+
+/*
+  Make sure the file exists, is a file and that the target directory exists as well.
+*/
+try {
+  action.validate()
+} catch(error) {
+ // TODO: handle validation errors.
+}
+
+console.log(action.message())
+action.commit()
+```
 
 ## FileWriteAction
 
+Writes content in string into a new file.
+
+```js
+const action = new FileWriteAction('/home/botanicus/data.json', "line 1\nline 2\n")
+
+/*
+  Make sure the parent directory of the target file exists.
+*/
+try {
+  action.validate()
+} catch(error) {
+ // TODO: handle validation errors.
+}
+
+console.log(action.message())
+action.commit()
+```
+
 ## CreateDirectoryAction
 
+Alternative to the `mkdir` utility, without the `-p` argument.
+
+```js
+const action = new CreateDirectoryAction('/home/botanicus/new_project')
+
+/*
+  Make sure the parent directory of the target directory exists.
+*/
+try {
+  action.validate()
+} catch(error) {
+ // TODO: handle validation errors.
+}
+
+console.log(action.message())
+action.commit()
+```
 
 [Build status]: https://travis-ci.org/botanicus/fs-actions
 
