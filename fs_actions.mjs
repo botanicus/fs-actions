@@ -9,7 +9,7 @@ export class FileSystemActions {
 
   add(...actions) {
     this.actions.forEach((action) => {
-      if (!action.validate || !action.commit) {
+      if (!action.validate || !action.message || !action.commit) {
         throw `Action ${action} must have .validate() and .commit() functions`
       }
     })
@@ -21,9 +21,9 @@ export class FileSystemActions {
     this.actions.forEach((action) => action.validate())
   }
 
-  commit() {
+  commit(log = (message) => console.log(message)) {
     this.actions.forEach((action) => {
-      console.log(action.message())
+      log(action.message())
       action.commit()
     })
   }

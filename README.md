@@ -34,6 +34,42 @@ Additionally this library does some basic validations, so it won't happen that y
 
 ## FileSystemActions
 
+```js
+/*
+  The constructor takes a splat of actions.
+
+  All the actions must have  `.validate`, `.message` and `.commit`
+  methods. These actions might be instances of a class that extends
+  `FileSystemAction`, but it's not a requirement.
+*/
+const actions = new FileSystemActions(...[new CreateDirectoryAction('logs')])
+
+/*
+  Call the `.validate` method on all the actions.
+
+  If the validation fails, an error will be raised.
+*/
+try {
+  actions.validate()
+} catch(error) {
+  // TODO: handle validation errors.
+  // As of now, there's no custom ValidationError class, see fs-actions#1
+}
+
+/*
+  Commit all the actions to the FS.
+
+  As the validations supposedly run beforehand, we don't expect errors here,
+  but they might happen.
+*/
+actions.commit()
+
+/*
+  If it's so desired, we can specify where output of the `.message` method is going to be logged.
+*/
+actions.commit((message) => logger.info(message))
+```
+
 ## FileSystemAction
 
 ## MoveFileAction
