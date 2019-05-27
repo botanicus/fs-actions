@@ -1,5 +1,7 @@
 # About
 
+[![Build status][BS img]][Build status]
+
 Alternative `fs` API that returns actions that can be easily tested.
 
 So rather than using `fs.mkdir` and having a new directory as a result, use:
@@ -39,3 +41,8 @@ Additionally this library does some basic validations, so it won't happen that y
 ## FileWriteAction
 
 ## CreateDirectoryAction
+
+
+[Build status]: https://travis-ci.org/botanicus/fs-actions
+
+[BS img]: https://travis-ci.org/botanicus/fs-actions.svg?branch=master
