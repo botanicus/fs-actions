@@ -55,7 +55,8 @@ try {
   actions.validate()
 } catch(error) {
   // TODO: handle validation errors.
-  // As of now, there's no custom ValidationError class, see https://github.com/botanicus/fs-actions/issues/1
+  // As of now, there's no custom ValidationError class,
+  // see https://github.com/botanicus/fs-actions/issues/1
 }
 
 /*
@@ -67,7 +68,8 @@ try {
 actions.commit()
 
 /*
-  If it's so desired, we can specify where output of the `.message` method is going to be logged.
+  If it's so desired, we can specify where output of the `.message`
+  method is going to be logged.
 */
 actions.commit((message) => logger.info(message))
 ```

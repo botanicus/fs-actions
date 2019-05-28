@@ -22,6 +22,7 @@ export class FileSystemActions {
 
   validate() {
     this.actions.forEach((action) => action.validate())
+    return true
   }
 
   commit(log = (message) => console.log(message)) {
