@@ -115,7 +115,13 @@ export class CreateDirectoryAction extends FileSystemAction {
     const parentDirectory = path.dirname(this.targetDirectoryPath)
 
     if (!fs.statSync(parentDirectory).isDirectory()) {
-      throw new Error(`parentDirectory ${parentDirectory} must exist`)
+      throw new Error(`parentDirectory ${parentDirectory} must be a directory`)
+    }
+
+    try {
+      fs.accessSync(parentDirectory, fs.constants.W_OK)
+    } catch(error) {
+      throw new Error(`parentDirectory ${parentDirectory} must be writable`)
     }
   }
 
