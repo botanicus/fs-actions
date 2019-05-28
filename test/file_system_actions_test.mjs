@@ -4,9 +4,9 @@ import { FileSystemActions } from '../'
 
 const list = [
   {
-    validate: new Function,
-    message: new Function,
-    commit: new Function
+    validate: new Function(),
+    message: new Function(),
+    commit: new Function()
   }
 ]
 
@@ -21,5 +21,10 @@ test('FileSystemActions can be instantiated with a list of valid actions', t => 
   assert.doesNotThrow(() => new FileSystemActions(...list))
   const actions = new FileSystemActions(...list)
   assert.strictEqual(actions.actions.length, list.length)
+  t.pass()
+})
+
+test('FileSystemActions cannot be instantiated with a list of other objects', t => {
+  assert.throws(() => new FileSystemActions({}), /must have .validate/)
   t.pass()
 })

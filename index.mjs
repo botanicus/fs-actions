@@ -3,14 +3,17 @@ import path from 'path'
 import { ensure } from './utils.mjs'
 
 export class FileSystemActions {
+  /* Class properties are supported from Node.js 12 on. */
+  actions = []
+
   constructor(...actions) {
-    this.actions = actions
+    this.add(...actions)
   }
 
   add(...actions) {
-    this.actions.forEach((action) => {
+    actions.forEach((action) => {
       if (!action.validate || !action.message || !action.commit) {
-        throw `Action ${action} must have .validate() and .commit() functions`
+        throw `Action ${action} must have .validate, .message and .commit methods`
       }
     })
 
