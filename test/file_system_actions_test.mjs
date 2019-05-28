@@ -60,7 +60,9 @@ test('FileSystemActions.prototype.validate() validates all the objects and retur
 /* Note that the error on failure is actually expected to be raised in each action's .validate method. */
 test('FileSystemActions.prototype.validate() validates all the objects and raises an error on failure', t => {
   const actionFailingValidation = {
-    validate: () => throw 'Validation error',
+    // Currently a stage 2 proposal https://github.com/tc39/proposals
+    // validate: () => throw 'Validation error',
+    validate: function () { throw 'Validation error' },
     message: new Function(),
     commit: new Function()
   }
