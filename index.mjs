@@ -59,10 +59,15 @@ export class MoveFileAction extends FileSystemAction {
       throw new Error('sourceFile must be a file')
     }
 
-    // TODO: we should test whether it's writable by the user.
     if (!fs.statSync(this.targetDirectory).isDirectory()) {
       throw new Error('targetDirectory must be a directory')
     }
+
+    fs.access(this.targetDirectory, fs.constants.W_OK, (error) => {
+      if (error) {
+        throw new Error('targetDirectory must be writable')
+      }
+    });
   }
 
   message() {
