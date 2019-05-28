@@ -1,6 +1,6 @@
 import test from 'ava'
 import assert from 'assert'
-import { FileWriteAction } from '../fs_actions.mjs'
+import { FileWriteAction } from '../'
 
 test('does something', t => {
   t.pass()

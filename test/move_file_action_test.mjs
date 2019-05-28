@@ -1,6 +1,6 @@
 import test from 'ava'
 import assert from 'assert'
-import { MoveFileAction } from '../fs_actions.mjs'
+import { MoveFileAction } from '../'
 
 test('MoveFileAction cannot be instantiated without sourceFile', t => {
   assert.throws(() => new MoveFileAction(), /sourceFile/)

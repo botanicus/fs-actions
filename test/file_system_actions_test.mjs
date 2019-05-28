@@ -1,12 +1,12 @@
 import test from 'ava'
 import assert from 'assert'
-import { FileSystemActions } from '../fs_actions.mjs'
+import { FileSystemActions } from '../'
 
 const list = [
   {
-    validate: () => {},
-    message: () => {},
-    commit: () => {}
+    validate: new Function,
+    message: new Function,
+    commit: new Function
   }
 ]
 
