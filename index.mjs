@@ -91,10 +91,16 @@ export class FileWriteAction extends FileSystemAction {
   }
 
   validate() {
-    const targetDirName = path.dirname(this.targetFilePath)
+    const parentDirectory = path.dirname(this.targetFilePath)
 
-    if (!fs.statSync(targetDirName).isDirectory()) {
-      throw new Error('targetDirName must be exist')
+    if (!fs.statSync(parentDirectory).isDirectory()) {
+      throw new Error(`parentDirectory ${parentDirectory} must be a directory`)
+    }
+
+    try {
+      fs.accessSync(parentDirectory, fs.constants.W_OK)
+    } catch(error) {
+      throw new Error(`parentDirectory ${parentDirectory} must be writable`)
     }
   }
 }
@@ -106,10 +112,10 @@ export class CreateDirectoryAction extends FileSystemAction {
   }
 
   validate() {
-    const targetDirName = path.dirname(this.targetDirectoryPath)
+    const parentDirectory = path.dirname(this.targetDirectoryPath)
 
-    if (!fs.statSync(targetDirName).isDirectory()) {
-      throw new Error('targetDirName must exist')
+    if (!fs.statSync(parentDirectory).isDirectory()) {
+      throw new Error(`parentDirectory ${parentDirectory} must exist`)
     }
   }
 

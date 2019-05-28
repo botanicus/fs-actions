@@ -2,6 +2,7 @@ import test from 'ava'
 import assert from 'assert'
 import { MoveFileAction } from '../'
 
+/* The constructor. */
 test('MoveFileAction cannot be instantiated without sourceFile', t => {
   assert.throws(() => new MoveFileAction(), /sourceFile/)
   t.pass()
@@ -24,6 +25,7 @@ test('MoveFileAction has sourceFile and targetDirectory properties', t => {
   t.pass()
 })
 
+/* MoveFileAction.prototype.validate() */
 test('MoveFileAction.prototype.validate() throws an error if the sourceFile does not exist', t => {
   const action = new MoveFileAction('file.txt', '/tmp')
   assert.throws(() => action.validate(), /ENOENT/)
@@ -42,10 +44,27 @@ test('MoveFileAction.prototype.validate() throws an error if the targetDirectory
   t.pass()
 })
 
-// test('MoveFileAction.prototype.validate() throws an error if the targetDirectory is not a directory', t => {
-//   const action = new MoveFileAction('test/move_file_action_test.mjs', 'move_file_action_test.mjs')
-//   assert.throws(() => action.validate(), /must be a directory/)
-//   t.pass()
-// })
+test('MoveFileAction.prototype.validate() throws an error if the targetDirectory is not a directory', t => {
+  const action = new MoveFileAction('test/move_file_action_test.mjs', 'test/move_file_action_test.mjs')
+  assert.throws(() => action.validate(), /must be a directory/)
+  t.pass()
+})
 
-// TODO: Test MoveFileAction.prototype.commit()
+test('MoveFileAction.prototype.validate() throws an error if the targetDirectory is not writable', t => {
+  const action = new MoveFileAction('test/move_file_action_test.mjs', '/sys')
+  assert.throws(() => action.validate(), /must be writable/)
+  t.pass()
+})
+
+/* MoveFileAction.prototype.message() */
+test('MoveFileAction.prototype.message() contains information about what is being moved where', t => {
+  const action = new MoveFileAction('file.txt', '/tmp')
+  assert(action.message().match(/file\.txt/))
+  assert(action.message().match(/\/tmp/))
+  t.pass()
+})
+
+/*
+  Leaving MoveFileAction.prototype.commit() untested intentionally,
+  because it's a bit harder to do and requires cleanup etc.
+*/
