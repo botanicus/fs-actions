@@ -150,6 +150,6 @@ action.commit()
 
 [BS img]: https://travis-ci.org/botanicus/fs-actions.svg?branch=master
 [NPM version img]: https://img.shields.io/npm/v/@botanicus/fs-actions.svg
-[license img]: https://img.shields.io/github/license/botanicus/fs-actions.svg
+[license img]: http://img.shields.io/badge/license-MIT-brightgreen.svg
 [issues img]: https://img.shields.io/github/issues/botanicus/fs-actions.svg
 [dependencies img]: https://img.shields.io/david/botanicus/fs-actions.svg
