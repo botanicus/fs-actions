@@ -1,6 +1,10 @@
 # About
 
-[![Build status][BS img]][Build status]
+[![Build status][BS img]][Build status url]
+[![GitHub issues][issues img]][issues url]
+[![NPM package][NPM version img]][NPM url]
+![MIT license](license img)
+![dependencies](dependencies img)
 
 Alternative `fs` API that returns actions that can be easily tested.
 
@@ -140,6 +144,12 @@ console.log(action.message())
 action.commit()
 ```
 
-[Build status]: https://travis-ci.org/botanicus/fs-actions
+[Build status url]: https://travis-ci.org/botanicus/fs-actions
+[issues url]: https://github.com/botanicus/fs-actions/issues
+[NPM url]: https://www.npmjs.com/package/@botanicus/fs-actions
 
 [BS img]: https://travis-ci.org/botanicus/fs-actions.svg?branch=master
+[NPM version img]: https://img.shields.io/npm/v/@botanicus/fs-actions.svg
+[license img]: https://img.shields.io/github/license/botanicus/fs-actions.svg
+[issues img]: https://img.shields.io/github/issues/botanicus/fs-actions.svg
+[dependencies img]: https://img.shields.io/david/botanicus/fs-actions.svg
