@@ -3,8 +3,8 @@
 [![Build status][BS img]][Build status url]
 [![GitHub issues][issues img]][issues url]
 [![NPM package][NPM version img]][NPM url]
-![MIT license](license img)
-![dependencies](dependencies img)
+![MIT license][license img]
+![dependencies][dependencies img]
 
 Alternative `fs` API that returns actions that can be easily tested.
 
