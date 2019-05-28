@@ -56,18 +56,18 @@ export class MoveFileAction extends FileSystemAction {
 
   validate() {
     if (!fs.statSync(this.sourceFile).isFile()) {
-      throw new Error('sourceFile must be a file')
+      throw new Error(`sourceFile ${this.sourceFile} must be a file`)
     }
 
     if (!fs.statSync(this.targetDirectory).isDirectory()) {
-      throw new Error('targetDirectory must be a directory')
+      throw new Error(`targetDirectory ${this.targetDirectory} must be a directory`)
     }
 
-    fs.access(this.targetDirectory, fs.constants.W_OK, (error) => {
-      if (error) {
-        throw new Error('targetDirectory must be writable')
-      }
-    });
+    try {
+      fs.accessSync(this.targetDirectory, fs.constants.W_OK)
+    } catch(error) {
+      throw new Error(`targetDirectory ${this.targetDirectory} must be writable`)
+    }
   }
 
   message() {
