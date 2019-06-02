@@ -144,6 +144,46 @@ console.log(action.message())
 action.commit()
 ```
 
+## RemoveFileAction
+
+Alternative to the `mkdir` utility, without the `-p` argument.
+
+```js
+const action = new RemoveFileAction('file.txt')
+
+/*
+  Make sure the file exists in the first place.
+*/
+try {
+  action.validate()
+} catch(error) {
+ // TODO: handle validation errors.
+}
+
+console.log(action.message())
+action.commit()
+```
+
+## RemoveDirectoryAction
+
+Alternative to the `mkdir` utility, without the `-p` argument.
+
+```js
+const action = new RemoveDirectoryAction('directory/')
+
+/*
+  Make sure the directory exists in the first place.
+*/
+try {
+  action.validate()
+} catch(error) {
+ // TODO: handle validation errors.
+}
+
+console.log(action.message())
+action.commit()
+```
+
 [Build status url]: https://travis-ci.org/botanicus/fs-actions
 [issues url]: https://github.com/botanicus/fs-actions/issues
 [NPM url]: https://www.npmjs.com/package/@botanicus/fs-actions

@@ -1,6 +1,6 @@
 {
   "name": "@botanicus/fs-actions",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Alternative fs API that returns actions that can be easily tested.",
   "main": "index.mjs",
   "engines" : {

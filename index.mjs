@@ -163,3 +163,33 @@ export class RemoveFileAction extends FileSystemAction {
     fs.unlink(this.targetFilePath)
   }
 }
+
+export class RemoveDirectoryAction extends FileSystemAction {
+  constructor(targetDirectoryPath) {
+    super()
+    this.targetDirectoryPath = ensure(targetDirectoryPath, 'RemoveDirectoryAction: targetDirectoryPath must not be empty')
+  }
+
+  validate() {
+    if (!fs.statSync(this.targetDirectoryPath).isDirectory()) {
+      throw new Error(`this.targetDirectoryPath ${this.targetDirectoryPath} must be a directory`)
+    }
+
+    // TODO: Can I delete the directory?
+    // const parentDirectory = path.dirname(this.targetDirectoryPath)
+
+    // try {
+    //   fs.accessSync(parentDirectory, fs.constants.W_OK)
+    // } catch(error) {
+    //   throw new Error(`parentDirectory ${parentDirectory} must be writable`)
+    // }
+  }
+
+  message() {
+    return `~ rm -r ${this.targetDirectoryPath}`
+  }
+
+  commit() {
+    fs.rmdir(this.targetDirectoryPath)
+  }
+}
