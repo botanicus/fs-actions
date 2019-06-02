@@ -9,12 +9,12 @@ test('CreateDirectoryAction cannot be instantiated without targetDirectoryPath',
 })
 
 test('CreateDirectoryAction can be instantiated with targetDirectoryPath', t => {
-  assert.doesNotThrow(() => new CreateDirectoryAction('/tmp'))
+  assert.doesNotThrow(() => new CreateDirectoryAction('test'))
   t.pass()
 })
 
 test('CreateDirectoryAction has targetDirectoryPath property', t => {
-  const action = new CreateDirectoryAction('/tmp')
+  const action = new CreateDirectoryAction('test')
   assert(action.targetDirectoryPath)
   t.pass()
 })
@@ -40,8 +40,8 @@ test('CreateDirectoryAction.prototype.validate() throws an error if the parent d
 
 /* CreateDirectoryAction.prototype.message() */
 test('CreateDirectoryAction.prototype.message() contains information about what is being moved where', t => {
-  const action = new CreateDirectoryAction('/tmp')
-  assert(action.message().match(/\/tmp/))
+  const action = new CreateDirectoryAction('test')
+  assert(action.message().match(/test/))
   t.pass()
 })
 

@@ -133,3 +133,33 @@ export class CreateDirectoryAction extends FileSystemAction {
     fs.mkdir(this.targetDirectoryPath)
   }
 }
+
+export class RemoveFileAction extends FileSystemAction {
+  constructor(targetFilePath) {
+    super()
+    this.targetFilePath = ensure(targetFilePath, 'RemoveFileAction: targetFilePath must not be empty')
+  }
+
+  validate() {
+    if (!fs.statSync(this.targetFilePath).isFile()) {
+      throw new Error(`this.targetFilePath ${this.targetFilePath} must be a file`)
+    }
+
+    // TODO: Can I delete the file?
+    // const parentDirectory = path.dirname(this.targetFilePath)
+
+    // try {
+    //   fs.accessSync(parentDirectory, fs.constants.W_OK)
+    // } catch(error) {
+    //   throw new Error(`parentDirectory ${parentDirectory} must be writable`)
+    // }
+  }
+
+  message() {
+    return `~ rm ${this.targetFilePath}`
+  }
+
+  commit() {
+    fs.unlink(this.targetFilePath)
+  }
+}
