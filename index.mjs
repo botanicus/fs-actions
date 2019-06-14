@@ -193,3 +193,23 @@ export class RemoveDirectoryAction extends FileSystemAction {
     fs.rmdir(this.targetDirectoryPath)
   }
 }
+
+// TODO: add tests.
+export class ConsoleLogAction extends FileSystemAction {
+  constructor(message) {
+    super()
+    this.message = ensure(message, 'ConsoleLogAction: message must not be empty')
+  }
+
+  validate() {
+    return true
+  }
+
+  message() {
+    return
+  }
+
+  commit() {
+    console.log(`~ ${this.message}`)
+  }
+}
