@@ -3,6 +3,7 @@ import { ensure } from './utils.mjs'
 import { execSync } from 'child_process'
 
 // TODO: add tests.
+// TODO: Validate paths are full, so chdir works.
 
 function chdir(newPath, fn) {
   const originalPath = process.cwd()

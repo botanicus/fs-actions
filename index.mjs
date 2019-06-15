@@ -165,7 +165,7 @@ export class RemoveFileAction extends FileSystemAction {
   }
 
   commit() {
-    fs.unlink(this.targetFilePath)
+    fs.unlinkSync(this.targetFilePath)
   }
 }
 
