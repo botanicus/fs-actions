@@ -36,9 +36,10 @@ class GitAction extends FileSystemAction {
 }
 
 export class GitAddAction extends GitAction {
-  constructor(gitRootDirectory, paths) {
+  constructor(gitRootDirectory, paths, options = {}) {
     super(gitRootDirectory)
     this.paths = ensure(paths, `${this.constructor.name}: paths are required`)
+    this.options = options
   }
 
   validate() {
@@ -52,7 +53,7 @@ export class GitAddAction extends GitAction {
 
 export class GitRemoveAction extends GitAddAction {
   command() {
-    return `git rm ${this.paths.join(' ')}`
+    return `git rm ${this.options.recursive ? '-r ' : ''}${this.paths.join(' ')}`
   }
 }
 

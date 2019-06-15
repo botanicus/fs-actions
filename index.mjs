@@ -27,8 +27,8 @@ export class FileSystemActions {
 
   commit(log = (message) => console.log(message)) {
     this.actions.forEach((action) => {
-      console.log(action)
-      log(action.message())
+      log(action)
+      // log(action.message())
       action.commit()
     })
   }
