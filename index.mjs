@@ -139,6 +139,13 @@ export class CreateDirectoryAction extends FileSystemAction {
   }
 }
 
+// ACTUALLY THIS SHOULD BE DONE VIA OPTIONS.
+export class EnsureDirectoryAction extends CreateDirectoryAction {
+  commit() {
+    if (!fs.existsSync(this.targetDirectoryPath)) super.commit()
+  }
+}
+
 export class RemoveFileAction extends FileSystemAction {
   constructor(targetFilePath) {
     super()
