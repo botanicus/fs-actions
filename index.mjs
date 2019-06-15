@@ -27,6 +27,7 @@ export class FileSystemActions {
 
   commit(log = (message) => console.log(message)) {
     this.actions.forEach((action) => {
+      console.log(action)
       log(action.message())
       action.commit()
     })
@@ -35,23 +36,23 @@ export class FileSystemActions {
 
 export class FileSystemAction {
   validate() {
-    throw new Error('Override this method in your subclass of FileSystemAction')
+    throw new Error(`Override ${this.constructor.name}.validate()`)
   }
 
   message() {
-    throw new Error('Override this method in your subclass of FileSystemAction')
+    throw new Error(`Override ${this.constructor.name}.message()`)
   }
 
   commit() {
-    throw new Error('Override this method in your subclass of FileSystemAction')
+    throw new Error(`Override ${this.constructor.name}.commit()`)
   }
 }
 
 export class MoveFileAction extends FileSystemAction {
   constructor(sourceFile, targetDirectory) {
     super()
-    this.sourceFile = ensure(sourceFile, 'MoveFileAction: sourceFile must not be empty')
-    this.targetDirectory = ensure(targetDirectory, 'MoveFileAction: targetDirectory must not be empty')
+    this.sourceFile = ensure(sourceFile, `${this.constructor.name}: sourceFile must not be empty`)
+    this.targetDirectory = ensure(targetDirectory, `${this.constructor.name}: targetDirectory must not be empty`)
   }
 
   validate() {
@@ -75,15 +76,15 @@ export class MoveFileAction extends FileSystemAction {
   }
 
   commit() {
-    fs.rename(this.sourceFile, this.targetDirectory)
+    fs.renameSync(this.sourceFile, this.targetDirectory)
   }
 }
 
 export class FileWriteAction extends FileSystemAction {
   constructor(targetFilePath, content) {
     super()
-    this.targetFilePath = ensure(targetFilePath, 'FileWriteAction: targetFilePath must not be empty')
-    this.content = ensure(content, 'FileWriteAction: content must not be empty')
+    this.targetFilePath = ensure(targetFilePath, `${this.constructor.name}: targetFilePath must not be empty`)
+    this.content = ensure(content, `${this.constructor.name}: content must not be empty`)
   }
 
   message() {
@@ -103,12 +104,16 @@ export class FileWriteAction extends FileSystemAction {
       throw new Error(`parentDirectory ${parentDirectory} must be writable`)
     }
   }
+
+  commit() {
+    fs.writeFileSync(this.targetFilePath, this.content)
+  }
 }
 
 export class CreateDirectoryAction extends FileSystemAction {
   constructor(targetDirectoryPath) {
     super()
-    this.targetDirectoryPath = ensure(targetDirectoryPath, 'CreateDirectoryAction: targetDirectoryPath must not be empty')
+    this.targetDirectoryPath = ensure(targetDirectoryPath, `${this.constructor.name}: targetDirectoryPath must not be empty`)
   }
 
   validate() {
@@ -130,19 +135,19 @@ export class CreateDirectoryAction extends FileSystemAction {
   }
 
   commit() {
-    fs.mkdir(this.targetDirectoryPath)
+    fs.mkdirSync(this.targetDirectoryPath)
   }
 }
 
 export class RemoveFileAction extends FileSystemAction {
   constructor(targetFilePath) {
     super()
-    this.targetFilePath = ensure(targetFilePath, 'RemoveFileAction: targetFilePath must not be empty')
+    this.targetFilePath = ensure(targetFilePath, `${this.constructor.name}: targetFilePath must not be empty`)
   }
 
   validate() {
     if (!fs.statSync(this.targetFilePath).isFile()) {
-      throw new Error(`this.targetFilePath ${this.targetFilePath} must be a file`)
+      throw new Error(`${this.constructor.name}.targetFilePath ${this.targetFilePath} must be a file`)
     }
 
     // TODO: Can I delete the file?
@@ -167,12 +172,12 @@ export class RemoveFileAction extends FileSystemAction {
 export class RemoveDirectoryAction extends FileSystemAction {
   constructor(targetDirectoryPath) {
     super()
-    this.targetDirectoryPath = ensure(targetDirectoryPath, 'RemoveDirectoryAction: targetDirectoryPath must not be empty')
+    this.targetDirectoryPath = ensure(targetDirectoryPath, `${this.constructor.name}: targetDirectoryPath must not be empty`)
   }
 
   validate() {
     if (!fs.statSync(this.targetDirectoryPath).isDirectory()) {
-      throw new Error(`this.targetDirectoryPath ${this.targetDirectoryPath} must be a directory`)
+      throw new Error(`${this.constructor.name}.targetDirectoryPath ${this.targetDirectoryPath} must be a directory`)
     }
 
     // TODO: Can I delete the directory?
@@ -190,7 +195,22 @@ export class RemoveDirectoryAction extends FileSystemAction {
   }
 
   commit() {
-    fs.rmdir(this.targetDirectoryPath)
+    this.deleteFolderRecursive(this.targetDirectoryPath)
+  }
+
+  // https://stackoverflow.com/questions/18052762/remove-directory-which-is-not-empty
+  deleteFolderRecursive(path) {
+    if (fs.existsSync(path)) {
+      fs.readdirSync(path).forEach(function(file, index){
+        var curPath = path + "/" + file
+        if (fs.lstatSync(curPath).isDirectory()) { // recurse
+          this.deleteFolderRecursive(curPath)
+        } else { // delete file
+          fs.unlinkSync(curPath)
+        }
+      })
+      fs.rmdirSync(path)
+    }
   }
 }
 
@@ -198,7 +218,7 @@ export class RemoveDirectoryAction extends FileSystemAction {
 export class ConsoleLogAction extends FileSystemAction {
   constructor(message) {
     super()
-    this.message = ensure(message, 'ConsoleLogAction: message must not be empty')
+    this._message = ensure(message, `${this.constructor.name}: message must not be empty`)
   }
 
   validate() {
@@ -210,6 +230,6 @@ export class ConsoleLogAction extends FileSystemAction {
   }
 
   commit() {
-    console.log(`~ ${this.message}`)
+    console.log(`~ ${this._message}`)
   }
 }
