@@ -25,6 +25,12 @@ export class FileSystemActions {
     return true
   }
 
+  snapshot() {
+    return this.actions.map((action) =>
+      Object.assign({type: action.constructor.name}, action)
+    )
+  }
+
   commit(log = (message) => console.log(message)) {
     this.actions.forEach((action) => {
       log(action)

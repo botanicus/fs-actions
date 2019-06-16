@@ -8,14 +8,16 @@ import { execSync } from 'child_process'
 function chdir(newPath, fn) {
   const originalPath = process.cwd()
   process.chdir(newPath)
-  fn()
+  const returnValue = fn()
   process.chdir(originalPath)
+  return returnValue
 }
 
 class GitAction extends FileSystemAction {
-  constructor(gitRootDirectory) {
+  constructor(gitRootDirectory, options = {}) {
     super()
     this.gitRootDirectory = ensure(gitRootDirectory, `${this.constructor.name}: gitRootDirectory is required`)
+    this.options = options
   }
 
   validate() {
@@ -37,7 +39,7 @@ class GitAction extends FileSystemAction {
 
 export class GitAddAction extends GitAction {
   constructor(gitRootDirectory, paths, options = {}) {
-    super(gitRootDirectory)
+    super(gitRootDirectory, options)
     this.paths = ensure(paths, `${this.constructor.name}: paths are required`)
     this.options = options
   }
@@ -58,12 +60,20 @@ export class GitRemoveAction extends GitAddAction {
 }
 
 export class GitCommitAction extends GitAction {
-  constructor(gitRootDirectory, message) {
-    super(gitRootDirectory)
+  constructor(gitRootDirectory, message, options) {
+    super(gitRootDirectory, options)
     this._message = ensure(message, `${this.constructor.name}: message must not be empty`)
   }
 
   command() {
     return `git commit -m "${this._message}"`
+  }
+
+  commit() {
+    try {
+      super.commit()
+    } catch(error) {
+      if (!this.options.soft) throw error
+    }
   }
 }
