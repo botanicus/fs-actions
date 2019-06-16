@@ -28,10 +28,6 @@ class GitAction extends FileSystemAction {
     throw new Error(`Override ${this.constructor.name}.command()`)
   }
 
-  message() {
-    return `~ ${this.command()}`
-  }
-
   commit() {
     chdir(this.gitRootDirectory, () => execSync(this.command()))
   }
@@ -62,11 +58,11 @@ export class GitRemoveAction extends GitAddAction {
 export class GitCommitAction extends GitAction {
   constructor(gitRootDirectory, message, options) {
     super(gitRootDirectory, options)
-    this._message = ensure(message, `${this.constructor.name}: message must not be empty`)
+    this.message = ensure(message, `${this.constructor.name}: message must not be empty`)
   }
 
   command() {
-    return `git commit -m "${this._message}"`
+    return `git commit -m "${this.message}"`
   }
 
   commit() {

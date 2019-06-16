@@ -12,8 +12,8 @@ export class FileSystemActions {
 
   add(...actions) {
     actions.forEach((action) => {
-      if (!action.validate || !action.message || !action.commit) {
-        throw `Action ${action} must have .validate, .message and .commit methods`
+      if (!action.validate || !action.commit) {
+        throw `Action ${action} must have .validate and .commit methods`
       }
     })
 
@@ -34,7 +34,6 @@ export class FileSystemActions {
   commit(log = (message) => console.log(message)) {
     this.actions.forEach((action) => {
       log(action)
-      // log(action.message())
       action.commit()
     })
   }
@@ -43,10 +42,6 @@ export class FileSystemActions {
 export class FileSystemAction {
   validate() {
     throw new Error(`Override ${this.constructor.name}.validate()`)
-  }
-
-  message() {
-    throw new Error(`Override ${this.constructor.name}.message()`)
   }
 
   commit() {
@@ -77,10 +72,6 @@ export class MoveFileAction extends FileSystemAction {
     }
   }
 
-  message() {
-    return `~ mv ${this.sourceFile} ${this.targetDirectory}`
-  }
-
   commit() {
     fs.renameSync(this.sourceFile, this.targetDirectory)
   }
@@ -91,10 +82,6 @@ export class FileWriteAction extends FileSystemAction {
     super()
     this.targetFilePath = ensure(targetFilePath, `${this.constructor.name}: targetFilePath must not be empty`)
     this.content = ensure(content, `${this.constructor.name}: content must not be empty`)
-  }
-
-  message() {
-    return `Writing ${this.targetFilePath}`
   }
 
   validate() {
@@ -136,10 +123,6 @@ export class CreateDirectoryAction extends FileSystemAction {
     }
   }
 
-  message() {
-    return `~ mkdir ${this.targetDirectoryPath}`
-  }
-
   commit() {
     fs.mkdirSync(this.targetDirectoryPath)
   }
@@ -173,10 +156,6 @@ export class RemoveFileAction extends FileSystemAction {
     // }
   }
 
-  message() {
-    return `~ rm ${this.targetFilePath}`
-  }
-
   commit() {
     fs.unlinkSync(this.targetFilePath)
   }
@@ -201,10 +180,6 @@ export class RemoveDirectoryAction extends FileSystemAction {
     // } catch(error) {
     //   throw new Error(`parentDirectory ${parentDirectory} must be writable`)
     // }
-  }
-
-  message() {
-    return `~ rm -r ${this.targetDirectoryPath}`
   }
 
   commit() {
@@ -236,10 +211,6 @@ export class ConsoleLogAction extends FileSystemAction {
 
   validate() {
     return true
-  }
-
-  message() {
-    return
   }
 
   commit() {

@@ -38,13 +38,6 @@ test('FileWriteAction.prototype.validate() throws an error if the parent directo
   t.pass()
 })
 
-/* FileWriteAction.prototype.message() */
-test('FileWriteAction.prototype.message() contains information about what is being moved where', t => {
-  const action = new FileWriteAction('file.txt', 'Lorem ipsum ...')
-  assert(action.message().match(/file\.txt/))
-  t.pass()
-})
-
 /*
   Leaving FileWriteAction.prototype.commit() untested intentionally,
   because it's a bit harder to do and requires cleanup etc.

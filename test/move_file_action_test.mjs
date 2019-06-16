@@ -56,14 +56,6 @@ test('MoveFileAction.prototype.validate() throws an error if the targetDirectory
   t.pass()
 })
 
-/* MoveFileAction.prototype.message() */
-test('MoveFileAction.prototype.message() contains information about what is being moved where', t => {
-  const action = new MoveFileAction('file.txt', '/tmp')
-  assert(action.message().match(/file\.txt/))
-  assert(action.message().match(/\/tmp/))
-  t.pass()
-})
-
 /*
   Leaving MoveFileAction.prototype.commit() untested intentionally,
   because it's a bit harder to do and requires cleanup etc.

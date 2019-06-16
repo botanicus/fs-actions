@@ -5,12 +5,10 @@ import { FileSystemActions } from '../'
 const list = [
   {
     validate: new Function(),
-    message: new Function(),
     commit: new Function()
   },
   {
     validate: new Function(),
-    message: new Function(),
     commit: new Function()
   }
 ]
@@ -63,7 +61,6 @@ test('FileSystemActions.prototype.validate() validates all the objects and raise
     // Currently a stage 2 proposal https://github.com/tc39/proposals
     // validate: () => throw 'Validation error',
     validate: function () { throw 'Validation error' },
-    message: new Function(),
     commit: new Function()
   }
   const actions = new FileSystemActions(actionFailingValidation)

@@ -38,13 +38,6 @@ test('CreateDirectoryAction.prototype.validate() throws an error if the parent d
   t.pass()
 })
 
-/* CreateDirectoryAction.prototype.message() */
-test('CreateDirectoryAction.prototype.message() contains information about what is being moved where', t => {
-  const action = new CreateDirectoryAction('test')
-  assert(action.message().match(/test/))
-  t.pass()
-})
-
 /*
   Leaving CreateDirectoryAction.prototype.commit() untested intentionally,
   because it's a bit harder to do and requires cleanup etc.

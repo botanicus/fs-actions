@@ -38,13 +38,6 @@ test('RemoveDirectoryAction.prototype.validate() throws an error if the parent d
 //   t.pass()
 // })
 
-/* RemoveDirectoryAction.prototype.message() */
-test('RemoveDirectoryAction.prototype.message() contains information about what is being moved where', t => {
-  const action = new RemoveDirectoryAction('README.md')
-  assert(action.message().match(/README.md/))
-  t.pass()
-})
-
 /*
   Leaving RemoveDirectoryAction.prototype.commit() untested intentionally,
   because it's a bit harder to do and requires cleanup etc.

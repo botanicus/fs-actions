@@ -38,13 +38,6 @@ test('RemoveFileAction.prototype.validate() throws an error if the parent direct
 //   t.pass()
 // })
 
-/* RemoveFileAction.prototype.message() */
-test('RemoveFileAction.prototype.message() contains information about what is being moved where', t => {
-  const action = new RemoveFileAction('README.md')
-  assert(action.message().match(/\README.md/))
-  t.pass()
-})
-
 /*
   Leaving RemoveFileAction.prototype.commit() untested intentionally,
   because it's a bit harder to do and requires cleanup etc.
