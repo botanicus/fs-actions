@@ -50,10 +50,10 @@ export class FileSystemAction {
 }
 
 export class MoveFileAction extends FileSystemAction {
-  constructor(sourceFile, targetDirectory) {
+  constructor(sourceFile, targetFile) {
     super()
     this.sourceFile = ensure(sourceFile, `${this.constructor.name}: sourceFile must not be empty`)
-    this.targetDirectory = ensure(targetDirectory, `${this.constructor.name}: targetDirectory must not be empty`)
+    this.targetFile = ensure(targetFile, `${this.constructor.name}: targetFile must not be empty`)
   }
 
   validate() {
@@ -61,19 +61,25 @@ export class MoveFileAction extends FileSystemAction {
       throw new Error(`sourceFile ${this.sourceFile} must be a file`)
     }
 
-    if (!fs.statSync(this.targetDirectory).isDirectory()) {
-      throw new Error(`targetDirectory ${this.targetDirectory} must be a directory`)
+    if (!fs.statSync(this.targetFile).isDirectory()) {
+      throw new Error(`targetFile ${this.targetFile} must be a directory`)
     }
 
     try {
-      fs.accessSync(this.targetDirectory, fs.constants.W_OK)
+      fs.accessSync(this.targetFile, fs.constants.W_OK)
     } catch(error) {
-      throw new Error(`targetDirectory ${this.targetDirectory} must be writable`)
+      throw new Error(`targetFile ${this.targetFile} must be writable`)
     }
   }
 
   commit() {
-    fs.renameSync(this.sourceFile, this.targetDirectory)
+    fs.renameSync(this.sourceFile, this.targetFile)
+  }
+}
+
+export class CopyFileAction extends MoveFileAction {
+  commit() {
+    fs.copyFileSync(this.sourceFile, this.targetFile)
   }
 }
 
@@ -206,7 +212,7 @@ export class RemoveDirectoryAction extends FileSystemAction {
 export class ConsoleLogAction extends FileSystemAction {
   constructor(message) {
     super()
-    this._message = ensure(message, `${this.constructor.name}: message must not be empty`)
+    this.message = ensure(message, `${this.constructor.name}: message must not be empty`)
   }
 
   validate() {
@@ -214,6 +220,6 @@ export class ConsoleLogAction extends FileSystemAction {
   }
 
   commit() {
-    console.log(`~ ${this._message}`)
+    console.log(`~ ${this.message}`)
   }
 }
