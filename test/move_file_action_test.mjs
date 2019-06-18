@@ -8,22 +8,22 @@ test('MoveFileAction cannot be instantiated without sourceFile', t => {
   t.pass()
 })
 
-test('MoveFileAction cannot be instantiated without targetDirectory', t => {
-  assert.throws(() => new MoveFileAction('file.txt'), /targetDirectory/)
-  t.pass()
-})
+// test('MoveFileAction cannot be instantiated without targetDirectory', t => {
+//   assert.throws(() => new MoveFileAction('file.txt'), /targetDirectory/)
+//   t.pass()
+// })
 
 test('MoveFileAction can be instantiated with sourceFile and targetDirectory', t => {
   assert.doesNotThrow(() => new MoveFileAction('file.txt', '/tmp'))
   t.pass()
 })
 
-test('MoveFileAction has sourceFile and targetDirectory properties', t => {
-  const action = new MoveFileAction('file.txt', '/tmp')
-  assert(action.sourceFile)
-  assert(action.targetDirectory)
-  t.pass()
-})
+// test('MoveFileAction has sourceFile and targetDirectory properties', t => {
+//   const action = new MoveFileAction('file.txt', '/tmp')
+//   assert(action.sourceFile)
+//   assert(action.targetDirectory)
+//   t.pass()
+// })
 
 /* MoveFileAction.prototype.validate() */
 test('MoveFileAction.prototype.validate() throws an error if the sourceFile does not exist', t => {
