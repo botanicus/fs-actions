@@ -195,7 +195,7 @@ export class RemoveDirectoryAction extends FileSystemAction {
   // https://stackoverflow.com/questions/18052762/remove-directory-which-is-not-empty
   deleteFolderRecursive(path) {
     if (fs.existsSync(path)) {
-      fs.readdirSync(path).forEach(function(file, index){
+      fs.readdirSync(path).forEach((file, index) => {
         var curPath = path + "/" + file
         if (fs.lstatSync(curPath).isDirectory()) { // recurse
           this.deleteFolderRecursive(curPath)
